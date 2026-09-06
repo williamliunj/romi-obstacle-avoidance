@@ -41,12 +41,12 @@ public class AutonomousDistance extends SequentialCommandGroup {
 
   /**
    * Drives forward while sensor 2 keeps the robot near the wall. The command
-   * ends after 108 inches of forward wall-following travel.
+   * ends after 350 inches of forward wall-following travel.
    */
   private static class WallFollowUntilObstacle extends Command {
     private static final double kForwardSpeed = 0.5;
     private static final double kTurnSpeed = 0.5;
-    private static final double kTargetTravelDistanceInches = 300.0;
+    private static final double kTargetTravelDistanceInches = 350.0;
     private static final double kSensor1TurnVoltage = 2.4;
     private static final double kSensor2HighVoltage = 0.8;
     private static final double kSensor2LowVoltage = 0.4;
@@ -159,7 +159,7 @@ public class AutonomousDistance extends SequentialCommandGroup {
 
       if (averageDistance >= targetDistance) {
         m_drivetrain.arcadeDrive(0, 0);
-        // Start a fresh encoder segment so the turn does not count toward 108 inches.
+        // Start a fresh encoder segment so the turn does not count toward 350 inches.
         m_drivetrain.resetEncoders();
         m_lastForwardEncoderDistanceInches = 0.0;
         m_cooldownTimer.restart();
