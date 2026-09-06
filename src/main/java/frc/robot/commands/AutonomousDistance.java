@@ -7,7 +7,6 @@ package frc.robot.commands;
 import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class AutonomousDistance extends SequentialCommandGroup {
@@ -19,34 +18,17 @@ public class AutonomousDistance extends SequentialCommandGroup {
    */
   public AutonomousDistance(Drivetrain drivetrain) {
     addCommands(
-        new FunctionalCommand(
-            // Initialize: start with the motors stopped.
-            () -> drivetrain.arcadeDrive(0, 0),
-            // Execute: check sensor 1 on every scheduler cycle.
-            () -> {
-              if (drivetrain.getDistanceSensorVoltage() >= 2.4) {
-                drivetrain.arcadeDrive(0, 0);
-              } else {
-                drivetrain.arcadeDrive(0.5, 0);
-              }
-            },
-            // End: stop on completion or interruption.
-            interrupted -> drivetrain.arcadeDrive(0, 0),
-            // Finish the approach so the turn can begin.
-            () -> drivetrain.getDistanceSensorVoltage() >= 2.4,
-            drivetrain),
-        new DriveUntilObstacle().createTurnCommand(drivetrain),
         new WallFollowUntilObstacle(drivetrain));
   }
 
   /**
    * Drives forward while sensor 2 keeps the robot near the wall. The command
-   * ends after 350 inches of forward wall-following travel.
+   * ends after 370 inches of forward wall-following travel.
    */
   private static class WallFollowUntilObstacle extends Command {
     private static final double kForwardSpeed = 0.5;
     private static final double kTurnSpeed = 0.5;
-    private static final double kTargetTravelDistanceInches = 350.0;
+    private static final double kTargetTravelDistanceInches = 370.0;
     private static final double kSensor1TurnVoltage = 2.4;
     private static final double kSensor2HighVoltage = 0.8;
     private static final double kSensor2LowVoltage = 0.4;
